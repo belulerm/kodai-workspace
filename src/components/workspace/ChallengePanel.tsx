@@ -9,7 +9,7 @@ const difficultyConfig = {
 };
 
 export const ChallengePanel = () => {
-  const { activeChallenge } = useAppStore();
+  const activeChallenge = useAppStore((s) => s.activeChallenge);
 
   if (!activeChallenge) {
     return (

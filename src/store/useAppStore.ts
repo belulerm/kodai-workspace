@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { Tables } from '@/integrations/supabase/types';
 
 export type Challenge = Tables<'challenges'>;
@@ -19,6 +20,10 @@ interface TerminalLine {
 }
 
 interface AppState {
+  // Hydration
+  _hasHydrated: boolean;
+  setHasHydrated: (v: boolean) => void;
+
   // Auth
   userId: string | null;
   profile: Profile | null;
@@ -46,38 +51,57 @@ interface AppState {
   setUserProgress: (progress: UserProgress[]) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  userId: null,
-  profile: null,
-  setUserId: (id) => set({ userId: id }),
-  setProfile: (profile) => set({ profile }),
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      _hasHydrated: false,
+      setHasHydrated: (v) => set({ _hasHydrated: v }),
 
-  activeChallenge: null,
-  editorCode: '',
-  setActiveChallenge: (challenge) => set({ 
-    activeChallenge: challenge, 
-    editorCode: challenge?.initial_code || '',
-    terminalLines: [],
-    chatMessages: [],
-  }),
-  setEditorCode: (code) => set({ editorCode: code }),
+      userId: null,
+      profile: null,
+      setUserId: (id) => set({ userId: id }),
+      setProfile: (profile) => set({ profile }),
 
-  chatMessages: [],
-  addChatMessage: (msg) => set((state) => ({
-    chatMessages: [...state.chatMessages, {
-      ...msg,
-      id: crypto.randomUUID(),
-      timestamp: new Date(),
-    }],
-  })),
-  clearChat: () => set({ chatMessages: [] }),
+      activeChallenge: null,
+      editorCode: '',
+      setActiveChallenge: (challenge) => set({
+        activeChallenge: challenge,
+        editorCode: challenge?.initial_code || '',
+        terminalLines: [],
+        chatMessages: [],
+      }),
+      setEditorCode: (code) => set({ editorCode: code }),
 
-  terminalLines: [],
-  addTerminalLine: (line) => set((state) => ({
-    terminalLines: [...state.terminalLines, { ...line, id: crypto.randomUUID() }],
-  })),
-  clearTerminal: () => set({ terminalLines: [] }),
+      chatMessages: [],
+      addChatMessage: (msg) => set((state) => ({
+        chatMessages: [...state.chatMessages, {
+          ...msg,
+          id: crypto.randomUUID(),
+          timestamp: new Date(),
+        }],
+      })),
+      clearChat: () => set({ chatMessages: [] }),
 
-  userProgress: [],
-  setUserProgress: (progress) => set({ userProgress: progress }),
-}));
+      terminalLines: [],
+      addTerminalLine: (line) => set((state) => ({
+        terminalLines: [...state.terminalLines, { ...line, id: crypto.randomUUID() }],
+      })),
+      clearTerminal: () => set({ terminalLines: [] }),
+
+      userProgress: [],
+      setUserProgress: (progress) => set({ userProgress: progress }),
+    }),
+    {
+      name: 'kodai-app-store',
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => ({
+        userId: state.userId,
+        activeChallenge: state.activeChallenge,
+        editorCode: state.editorCode,
+      }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
+    }
+  )
+);

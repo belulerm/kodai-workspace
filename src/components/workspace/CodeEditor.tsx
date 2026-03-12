@@ -1,8 +1,27 @@
-import Editor from '@monaco-editor/react';
+import { useCallback, useRef } from 'react';
+import Editor, { type OnChange } from '@monaco-editor/react';
 import { useAppStore } from '@/store/useAppStore';
 
 export const CodeEditor = () => {
-  const { editorCode, setEditorCode } = useAppStore();
+  const editorCode = useAppStore((s) => s.editorCode);
+  const setEditorCode = useAppStore((s) => s.setEditorCode);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const localRef = useRef(editorCode);
+
+  const flushToStore = useCallback(() => {
+    setEditorCode(localRef.current);
+  }, [setEditorCode]);
+
+  const handleChange: OnChange = useCallback((value) => {
+    localRef.current = value || '';
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(flushToStore, 500);
+  }, [flushToStore]);
+
+  const handleBlur = useCallback(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    flushToStore();
+  }, [flushToStore]);
 
   return (
     <div className="h-full w-full overflow-hidden rounded-lg border border-border bg-card">
@@ -17,8 +36,11 @@ export const CodeEditor = () => {
       <Editor
         height="100%"
         defaultLanguage="javascript"
-        value={editorCode}
-        onChange={(value) => setEditorCode(value || '')}
+        defaultValue={editorCode}
+        onChange={handleChange}
+        onMount={(editor) => {
+          editor.onDidBlurEditorWidget(handleBlur);
+        }}
         theme="vs-dark"
         options={{
           fontSize: 14,

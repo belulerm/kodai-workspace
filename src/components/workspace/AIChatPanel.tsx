@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Bot, Send, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// Simulated AI responses for the MVP stub
 const mockResponses = [
   "Great question! Let me help you think through this. Consider what the function should return and work backwards from the expected output.",
   "Here's a hint: break the problem into smaller steps. What's the first thing your function needs to do?",
@@ -15,7 +14,8 @@ const mockResponses = [
 ];
 
 export const AIChatPanel = () => {
-  const { chatMessages, addChatMessage, activeChallenge, editorCode } = useAppStore();
+  const chatMessages = useAppStore((s) => s.chatMessages);
+  const addChatMessage = useAppStore((s) => s.addChatMessage);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -24,7 +24,7 @@ export const AIChatPanel = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [chatMessages]);
 
-  const handleSend = () => {
+  const handleSend = useCallback(() => {
     if (!input.trim()) return;
 
     addChatMessage({ role: 'user', content: input });
@@ -32,13 +32,12 @@ export const AIChatPanel = () => {
     setIsTyping(true);
 
     // TODO: Replace with actual Supabase Edge Function call
-    // The edge function should receive: { code: editorCode, challenge: activeChallenge, question: input }
     setTimeout(() => {
       const response = mockResponses[Math.floor(Math.random() * mockResponses.length)];
       addChatMessage({ role: 'assistant', content: response });
       setIsTyping(false);
     }, 1000 + Math.random() * 1500);
-  };
+  }, [input, addChatMessage]);
 
   return (
     <div className="flex h-full flex-col">

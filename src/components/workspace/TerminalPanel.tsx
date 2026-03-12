@@ -2,19 +2,21 @@ import { useAppStore } from '@/store/useAppStore';
 import { Terminal, Play, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useCallback } from 'react';
 
 export const TerminalPanel = () => {
-  const { terminalLines, addTerminalLine, clearTerminal, editorCode, activeChallenge } = useAppStore();
+  const terminalLines = useAppStore((s) => s.terminalLines);
+  const addTerminalLine = useAppStore((s) => s.addTerminalLine);
+  const clearTerminal = useAppStore((s) => s.clearTerminal);
+  const editorCode = useAppStore((s) => s.editorCode);
+  const activeChallenge = useAppStore((s) => s.activeChallenge);
 
   // TODO: Inject Pyodide WebWorker logic here for client-side evaluation
-  const handleRunCode = () => {
+  const handleRunCode = useCallback(() => {
     clearTerminal();
     addTerminalLine({ content: '> Running code...', type: 'info' });
-
-    // Mock execution: grab the string value from Monaco editor and print it
     addTerminalLine({ content: editorCode, type: 'output' });
 
-    // Hardcoded success/failure message
     if (activeChallenge) {
       const mockSuccess = Math.random() > 0.3;
       if (mockSuccess) {
@@ -25,7 +27,7 @@ export const TerminalPanel = () => {
         addTerminalLine({ content: 'Try again! Hint: Check your return statement.', type: 'info' });
       }
     }
-  };
+  }, [clearTerminal, addTerminalLine, editorCode, activeChallenge]);
 
   return (
     <div className="flex h-full flex-col rounded-lg border border-border bg-terminal overflow-hidden">

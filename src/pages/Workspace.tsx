@@ -1,27 +1,78 @@
+import { lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
-import { CodeEditor } from '@/components/workspace/CodeEditor';
-import { TerminalPanel } from '@/components/workspace/TerminalPanel';
-import { ChallengePanel } from '@/components/workspace/ChallengePanel';
-import { AIChatPanel } from '@/components/workspace/AIChatPanel';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, BookOpen, Bot, Code2 } from 'lucide-react';
 import { useEffect } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const CodeEditor = lazy(() => import('@/components/workspace/CodeEditor').then((m) => ({ default: m.CodeEditor })));
+const TerminalPanel = lazy(() => import('@/components/workspace/TerminalPanel').then((m) => ({ default: m.TerminalPanel })));
+const ChallengePanel = lazy(() => import('@/components/workspace/ChallengePanel').then((m) => ({ default: m.ChallengePanel })));
+const AIChatPanel = lazy(() => import('@/components/workspace/AIChatPanel').then((m) => ({ default: m.AIChatPanel })));
+
+const EditorSkeleton = () => (
+  <div className="h-full w-full rounded-lg border border-border bg-card overflow-hidden">
+    <div className="flex items-center gap-2 border-b border-border bg-muted/50 px-4 py-2">
+      <div className="flex gap-1.5">
+        <Skeleton className="h-3 w-3 rounded-full" />
+        <Skeleton className="h-3 w-3 rounded-full" />
+        <Skeleton className="h-3 w-3 rounded-full" />
+      </div>
+      <Skeleton className="h-3 w-20 ml-2" />
+    </div>
+    <div className="p-4 space-y-2">
+      {Array.from({ length: 12 }).map((_, i) => (
+        <Skeleton key={i} className="h-4" style={{ width: `${40 + Math.random() * 50}%` }} />
+      ))}
+    </div>
+  </div>
+);
+
+const TerminalSkeleton = () => (
+  <div className="flex h-full flex-col rounded-lg border border-border bg-card overflow-hidden">
+    <div className="flex items-center justify-between border-b border-border bg-muted/50 px-4 py-2">
+      <Skeleton className="h-4 w-20" />
+      <Skeleton className="h-7 w-16" />
+    </div>
+    <div className="p-4">
+      <Skeleton className="h-3 w-48" />
+    </div>
+  </div>
+);
+
+const PanelSkeleton = () => (
+  <div className="p-6 space-y-4">
+    <Skeleton className="h-6 w-16 rounded-full" />
+    <Skeleton className="h-6 w-3/4" />
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-5/6" />
+    <Skeleton className="h-4 w-2/3" />
+  </div>
+);
 
 const Workspace = () => {
   const navigate = useNavigate();
-  const { activeChallenge } = useAppStore();
+  const activeChallenge = useAppStore((s) => s.activeChallenge);
+  const hasHydrated = useAppStore((s) => s._hasHydrated);
 
   useEffect(() => {
-    if (!activeChallenge) navigate('/');
-  }, [activeChallenge, navigate]);
+    if (hasHydrated && !activeChallenge) navigate('/');
+  }, [activeChallenge, navigate, hasHydrated]);
+
+  if (!hasHydrated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    );
+  }
 
   if (!activeChallenge) return null;
 
   return (
     <div className="flex h-screen flex-col bg-background overflow-hidden">
-      {/* Top Bar */}
       <header className="flex items-center justify-between border-b border-border bg-card px-4 py-2 flex-shrink-0">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate('/')}>
@@ -36,9 +87,7 @@ const Workspace = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Panel - Challenge + Chat Tabs */}
         <div className="w-[380px] flex-shrink-0 border-r border-border flex flex-col">
           <Tabs defaultValue="challenge" className="flex flex-1 flex-col overflow-hidden">
             <TabsList className="mx-3 mt-3 bg-muted border border-border">
@@ -52,23 +101,28 @@ const Workspace = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="challenge" className="flex-1 overflow-hidden mt-0">
-              <ChallengePanel />
+              <Suspense fallback={<PanelSkeleton />}>
+                <ChallengePanel />
+              </Suspense>
             </TabsContent>
             <TabsContent value="chat" className="flex-1 overflow-hidden mt-0">
-              <AIChatPanel />
+              <Suspense fallback={<PanelSkeleton />}>
+                <AIChatPanel />
+              </Suspense>
             </TabsContent>
           </Tabs>
         </div>
 
-        {/* Right Panel - Editor + Terminal */}
         <div className="flex flex-1 flex-col overflow-hidden">
-          {/* Editor - 70% */}
           <div className="flex-[7] overflow-hidden p-2 pb-1">
-            <CodeEditor />
+            <Suspense fallback={<EditorSkeleton />}>
+              <CodeEditor />
+            </Suspense>
           </div>
-          {/* Terminal - 30% */}
           <div className="flex-[3] overflow-hidden p-2 pt-1">
-            <TerminalPanel />
+            <Suspense fallback={<TerminalSkeleton />}>
+              <TerminalPanel />
+            </Suspense>
           </div>
         </div>
       </div>
