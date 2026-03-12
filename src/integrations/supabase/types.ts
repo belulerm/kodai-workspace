@@ -14,7 +14,107 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      challenges: {
+        Row: {
+          created_at: string
+          description: string
+          difficulty: string
+          expected_output: string
+          id: string
+          initial_code: string
+          order_index: number
+          title: string
+          xp_reward: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          difficulty?: string
+          expected_output?: string
+          id?: string
+          initial_code?: string
+          order_index?: number
+          title: string
+          xp_reward?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          difficulty?: string
+          expected_output?: string
+          id?: string
+          initial_code?: string
+          order_index?: number
+          title?: string
+          xp_reward?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          current_level: number
+          id: string
+          updated_at: string
+          username: string | null
+          xp_points: number
+        }
+        Insert: {
+          created_at?: string
+          current_level?: number
+          id: string
+          updated_at?: string
+          username?: string | null
+          xp_points?: number
+        }
+        Update: {
+          created_at?: string
+          current_level?: number
+          id?: string
+          updated_at?: string
+          username?: string | null
+          xp_points?: number
+        }
+        Relationships: []
+      }
+      user_progress: {
+        Row: {
+          challenge_id: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          status: string
+          submitted_code: string | null
+          user_id: string
+        }
+        Insert: {
+          challenge_id: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          submitted_code?: string | null
+          user_id: string
+        }
+        Update: {
+          challenge_id?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          submitted_code?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_progress_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
