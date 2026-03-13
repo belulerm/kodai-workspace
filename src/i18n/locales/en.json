@@ -1,0 +1,60 @@
+{
+  "common": {
+    "loading": "Loading KodAI...",
+    "logout": "Logout",
+    "run": "Run",
+    "submit": "Submit",
+    "clear": "Clear",
+    "back": "Back"
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back",
+    "startJourney": "Start Your Journey",
+    "loginSubtitle": "Log in to continue your coding adventure",
+    "signupSubtitle": "Create an account and level up your skills",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "createAccount": "Create Account",
+    "processing": "Processing...",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "signupSuccess": "Account created!",
+    "loginSuccess": "Welcome back!"
+  },
+  "dashboard": {
+    "level": "Level",
+    "totalXP": "Total XP",
+    "streak": "Streak",
+    "challenges": "Challenges",
+    "completed": "completed",
+    "xpProgress": "XP Progress"
+  },
+  "workspace": {
+    "challenge": "Challenge",
+    "aiTutor": "AI Tutor",
+    "terminal": "Terminal",
+    "description": "Description",
+    "expectedOutput": "Expected Output",
+    "selectChallenge": "Select a challenge to begin...",
+    "runCode": "Click \"Run\" to execute your code...",
+    "solutionFile": "solution.js"
+  },
+  "chat": {
+    "title": "AI Tutor",
+    "subtitle": "Ask me anything about the challenge!",
+    "placeholder": "Ask the AI tutor...",
+    "askTutor": "Ask Tutor"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+  },
+  "xp": {
+    "level": "Level",
+    "xpOf": "XP"
+  }
+}
