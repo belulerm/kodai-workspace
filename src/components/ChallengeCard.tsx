@@ -4,6 +4,7 @@ import { CheckCircle2, Zap, Code2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Challenge, UserProgress } from '@/store/useAppStore';
 import { getLocalizedTitle, getLocalizedDescription } from '@/lib/i18n-challenge';
+import { prefetchWorkspace } from '@/lib/prefetch';
 
 interface ChallengeCardProps {
   challenge: Challenge;
