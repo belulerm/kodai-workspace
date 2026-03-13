@@ -1,0 +1,60 @@
+{
+  "common": {
+    "loading": "Duke ngarkuar KodAI...",
+    "logout": "Dil",
+    "run": "Ekzekuto",
+    "submit": "Dorëzo",
+    "clear": "Pastro",
+    "back": "Kthehu"
+  },
+  "auth": {
+    "welcomeBack": "Mirë se u ktheve",
+    "startJourney": "Fillo Udhëtimin Tënd",
+    "loginSubtitle": "Identifikohu për të vazhduar aventurën tënde të kodimit",
+    "signupSubtitle": "Krijo një llogari dhe ngri nivelin e aftësive të tua",
+    "username": "Emri i përdoruesit",
+    "email": "Email",
+    "password": "Fjalëkalimi",
+    "login": "Identifikohu",
+    "signup": "Regjistrohu",
+    "createAccount": "Krijo Llogarinë",
+    "processing": "Duke përpunuar...",
+    "noAccount": "Nuk ke llogari?",
+    "haveAccount": "Ke tashmë një llogari?",
+    "signupSuccess": "Llogaria u krijua!",
+    "loginSuccess": "Mirë se u ktheve!"
+  },
+  "dashboard": {
+    "level": "Niveli",
+    "totalXP": "XP Totale",
+    "streak": "Seria",
+    "challenges": "Sfidat",
+    "completed": "përfunduar",
+    "xpProgress": "Progresi i XP"
+  },
+  "workspace": {
+    "challenge": "Sfida",
+    "aiTutor": "Tutori AI",
+    "terminal": "Terminali",
+    "description": "Përshkrimi",
+    "expectedOutput": "Rezultati i Pritshëm",
+    "selectChallenge": "Zgjidh një sfidë për të filluar...",
+    "runCode": "Kliko \"Ekzekuto\" për të ekzekutuar kodin tënd...",
+    "solutionFile": "zgjidhje.js"
+  },
+  "chat": {
+    "title": "Tutori AI",
+    "subtitle": "Më pyet çfarëdo rreth sfidës!",
+    "placeholder": "Pyet tutorin AI...",
+    "askTutor": "Pyet Tutorin"
+  },
+  "difficulty": {
+    "easy": "E Lehtë",
+    "medium": "Mesatare",
+    "hard": "E Vështirë"
+  },
+  "xp": {
+    "level": "Niveli",
+    "xpOf": "XP"
+  }
+}
