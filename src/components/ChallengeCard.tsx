@@ -4,6 +4,7 @@ import { CheckCircle2, Zap, Code2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Challenge, UserProgress } from '@/store/useAppStore';
 import { getLocalizedTitle, getLocalizedDescription } from '@/lib/i18n-challenge';
+import { prefetchWorkspace } from '@/lib/prefetch';
 
 interface ChallengeCardProps {
   challenge: Challenge;
@@ -27,6 +28,8 @@ export const ChallengeCard = ({ challenge, progress, index, onClick }: Challenge
 
   return (
     <motion.button
+      onMouseEnter={prefetchWorkspace}
+      onFocus={prefetchWorkspace}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.3 }}
