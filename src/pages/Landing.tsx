@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
 import { Code2, Bot, Gamepad2 } from 'lucide-react';
+import { LanguageToggle } from '@/components/LanguageToggle';
 
 const Landing = () => {
   const { t } = useTranslation();
@@ -35,6 +36,7 @@ const Landing = () => {
             <span className="font-mono text-sm font-semibold text-primary">KodAI</span>
           </div>
           <nav className="flex items-center gap-2">
+            <LanguageToggle />
             <Button
               variant="ghost"
               size="sm"
