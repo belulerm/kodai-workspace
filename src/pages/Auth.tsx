@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Code2, Zap } from 'lucide-react';
+import { LanguageToggle } from '@/components/LanguageToggle';
 
 const AuthPage = () => {
   const { t } = useTranslation();
