@@ -24,6 +24,27 @@
     "signupSuccess": "Llogaria u krijua!",
     "loginSuccess": "Mirë se u ktheve!"
   },
+  "onboarding": {
+    "ageTitle": "Sa vjeç je?",
+    "ageDescription": "Kjo na ndihmon të përshtatim përvojën e mësimit për nivelin tënd.",
+    "ageLabel": "Mosha jote",
+    "languageTitle": "Çfarë dëshiron të mësosh?",
+    "languageDescription": "Zgjidh gjuhën e programimit që dëshiron ta mësosh.",
+    "languageLabel": "Gjuha e programimit",
+    "languagePlaceholder": "Zgjidh një gjuhë...",
+    "skillTitle": "Cili është niveli yt?",
+    "skillDescription": "Ji i sinqertë — ne do ta rregullojmë vështirësinë për ty.",
+    "skill_beginner": "Fillestar",
+    "skill_beginner_desc": "Sapo po filloj me kodimin.",
+    "skill_intermediate": "Mesatar",
+    "skill_intermediate_desc": "I di bazat dhe dua të avancoj.",
+    "skill_master": "Master",
+    "skill_master_desc": "Kam përvojë dhe kërkoj sfida të vështira.",
+    "next": "Vazhdo",
+    "finish": "Nisemi!",
+    "success": "Mirë se erdhe! Le të fillojmë kodimin.",
+    "error": "Diçka shkoi keq. Provo përsëri."
+  },
   "dashboard": {
     "level": "Niveli",
     "totalXP": "XP Totale",
