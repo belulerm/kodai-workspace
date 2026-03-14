@@ -70,25 +70,37 @@ export type Database = {
       }
       profiles: {
         Row: {
+          age: number | null
           created_at: string
           current_level: number
           id: string
+          onboarding_completed: boolean
+          skill_level: Database["public"]["Enums"]["skill_level"] | null
+          target_programming_language: string | null
           updated_at: string
           username: string | null
           xp_points: number
         }
         Insert: {
+          age?: number | null
           created_at?: string
           current_level?: number
           id: string
+          onboarding_completed?: boolean
+          skill_level?: Database["public"]["Enums"]["skill_level"] | null
+          target_programming_language?: string | null
           updated_at?: string
           username?: string | null
           xp_points?: number
         }
         Update: {
+          age?: number | null
           created_at?: string
           current_level?: number
           id?: string
+          onboarding_completed?: boolean
+          skill_level?: Database["public"]["Enums"]["skill_level"] | null
+          target_programming_language?: string | null
           updated_at?: string
           username?: string | null
           xp_points?: number
@@ -141,7 +153,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      skill_level: "beginner" | "intermediate" | "master"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -268,6 +280,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      skill_level: ["beginner", "intermediate", "master"],
+    },
   },
 } as const
