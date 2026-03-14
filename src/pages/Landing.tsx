@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import kodaiLogo from '@/assets/kodai-logo.png';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
