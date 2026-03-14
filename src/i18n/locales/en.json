@@ -24,6 +24,27 @@
     "signupSuccess": "Account created!",
     "loginSuccess": "Welcome back!"
   },
+  "onboarding": {
+    "ageTitle": "How old are you?",
+    "ageDescription": "This helps us tailor the learning experience to your level.",
+    "ageLabel": "Your age",
+    "languageTitle": "What do you want to learn?",
+    "languageDescription": "Pick the programming language you'd like to master.",
+    "languageLabel": "Programming language",
+    "languagePlaceholder": "Select a language...",
+    "skillTitle": "What's your skill level?",
+    "skillDescription": "Be honest — we'll adjust the difficulty for you.",
+    "skill_beginner": "Beginner",
+    "skill_beginner_desc": "I'm just starting out with coding.",
+    "skill_intermediate": "Intermediate",
+    "skill_intermediate_desc": "I know the basics and want to level up.",
+    "skill_master": "Master",
+    "skill_master_desc": "I'm experienced and looking for hard challenges.",
+    "next": "Next",
+    "finish": "Let's Go!",
+    "success": "Welcome aboard! Let's start coding.",
+    "error": "Something went wrong. Please try again."
+  },
   "dashboard": {
     "level": "Level",
     "totalXP": "Total XP",

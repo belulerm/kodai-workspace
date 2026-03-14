@@ -4,10 +4,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthGuard } from "@/components/AuthGuard";
+import { OnboardingGuard } from "@/components/OnboardingGuard";
 import { LanguageToggle } from "@/components/LanguageToggle";
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Workspace = lazy(() => import('./pages/Workspace'));
+const Onboarding = lazy(() => import('./pages/Onboarding'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 const queryClient = new QueryClient();
@@ -39,9 +41,22 @@ const App = () => (
           <GlobalLayout>
             <Suspense fallback={<RouteSpinner />}>
               <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/workspace" element={<Workspace />} />
-                <Route path="*" element={<NotFound />} />
+                {/* Onboarding lives INSIDE AuthGuard but OUTSIDE OnboardingGuard */}
+                <Route path="/onboarding" element={<Onboarding />} />
+
+                {/* All other routes require completed onboarding */}
+                <Route
+                  path="/*"
+                  element={
+                    <OnboardingGuard>
+                      <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/workspace" element={<Workspace />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </OnboardingGuard>
+                  }
+                />
               </Routes>
             </Suspense>
           </GlobalLayout>
