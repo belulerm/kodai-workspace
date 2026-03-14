@@ -35,6 +35,7 @@ const Landing = () => {
             <span className="font-mono text-sm font-semibold text-primary">KodAI</span>
           </div>
           <nav className="flex items-center gap-2">
+            <LanguageToggle />
             <Button
               variant="ghost"
               size="sm"
