@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Code2, Zap } from 'lucide-react';
 import { LanguageToggle } from '@/components/LanguageToggle';
+import kodaiLogo from '@/assets/kodai-logo.png';
 
 const AuthPage = () => {
   const { t } = useTranslation();
