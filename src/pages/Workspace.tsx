@@ -65,17 +65,6 @@ const Workspace = () => {
     if (hasHydrated && !activeChallenge) navigate('/');
   }, [activeChallenge, navigate, hasHydrated]);
 
-  // Prevent Ctrl+S / Cmd+S from opening browser "Save As" dialog
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   if (!hasHydrated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">

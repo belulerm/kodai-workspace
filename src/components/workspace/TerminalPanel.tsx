@@ -5,7 +5,7 @@ import { Terminal, Play, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useCallback } from 'react';
-import { validateChallengeDetailed } from '@/lib/validateChallenge';
+import { validateChallenge } from '@/lib/validateChallenge';
 
 export const TerminalPanel = () => {
   const { t } = useTranslation();
@@ -23,6 +23,7 @@ export const TerminalPanel = () => {
   const handleRunCode = useCallback(async () => {
     clearTerminal();
     addTerminalLine({ content: '> Running code...', type: 'info' });
+    addTerminalLine({ content: editorCode, type: 'output' });
 
     if (!activeChallenge) return;
 
@@ -31,28 +32,22 @@ export const TerminalPanel = () => {
       (p) => p.challenge_id === activeChallenge.id && p.status === 'completed'
     );
 
-    // Use execution-based validation
-    const result = validateChallengeDetailed(editorCode, {
+    // Use real validation
+    const isCorrect = validateChallenge(editorCode, {
       expectedCode: activeChallenge.expected_output,
+      pattern: new RegExp(activeChallenge.expected_output.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s*'), 'i'),
     });
 
-    // Show captured console output in terminal
-    const execResult = result as typeof result & { consoleOutput?: string[]; returnValue?: string | null };
-    if (execResult.consoleOutput && execResult.consoleOutput.length > 0) {
-      execResult.consoleOutput.forEach((line) => {
-        addTerminalLine({ content: `> ${line}`, type: 'output' });
-      });
-    } else if (execResult.returnValue) {
-      addTerminalLine({ content: `> ${execResult.returnValue}`, type: 'output' });
-    }
-
-    if (result.passed) {
+    if (isCorrect) {
       addTerminalLine({ content: `✓ Output matches expected: "${activeChallenge.expected_output}"`, type: 'success' });
 
       if (!alreadyCompleted) {
         addTerminalLine({ content: `+${activeChallenge.xp_reward} XP earned!`, type: 'success' });
+
+        // Update XP locally
         updateXP(activeChallenge.xp_reward);
 
+        // Update XP in database
         if (profile) {
           const newXP = profile.xp_points + activeChallenge.xp_reward;
           const newLevel = Math.floor(newXP / 200) + 1;
@@ -61,6 +56,7 @@ export const TerminalPanel = () => {
             current_level: newLevel,
           }).eq('id', profile.id);
 
+          // Save progress
           const { data } = await supabase.from('user_progress').upsert({
             user_id: profile.id,
             challenge_id: activeChallenge.id,
@@ -77,10 +73,8 @@ export const TerminalPanel = () => {
 
       triggerCelebration();
     } else {
-      result.errors.forEach((err) => {
-        addTerminalLine({ content: `✗ ${err}`, type: 'error' });
-      });
-      addTerminalLine({ content: 'Try again! Check your code carefully.', type: 'info' });
+      addTerminalLine({ content: `✗ Expected: "${activeChallenge.expected_output}" but got different output`, type: 'error' });
+      addTerminalLine({ content: 'Try again! Hint: Check your code carefully.', type: 'info' });
     }
   }, [clearTerminal, addTerminalLine, editorCode, activeChallenge, triggerCelebration, updateXP, addCompletedProgress, profile, userProgress]);
 
