@@ -32,13 +32,13 @@ export const TerminalPanel = () => {
       (p) => p.challenge_id === activeChallenge.id && p.status === 'completed'
     );
 
-    // Use real validation
-    const isCorrect = validateChallenge(editorCode, {
+    // Use real validation with detailed error messages
+    const result = validateChallengeDetailed(editorCode, {
       expectedCode: activeChallenge.expected_output,
       pattern: new RegExp(activeChallenge.expected_output.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s*'), 'i'),
     });
 
-    if (isCorrect) {
+    if (result.passed) {
       addTerminalLine({ content: `✓ Output matches expected: "${activeChallenge.expected_output}"`, type: 'success' });
 
       if (!alreadyCompleted) {
