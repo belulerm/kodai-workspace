@@ -26,6 +26,7 @@ export type Database = {
           expected_output_sq: string | null
           id: string
           initial_code: string
+          language: string
           order_index: number
           title: string
           title_en: string | null
@@ -43,6 +44,7 @@ export type Database = {
           expected_output_sq?: string | null
           id?: string
           initial_code?: string
+          language?: string
           order_index?: number
           title: string
           title_en?: string | null
@@ -60,6 +62,7 @@ export type Database = {
           expected_output_sq?: string | null
           id?: string
           initial_code?: string
+          language?: string
           order_index?: number
           title?: string
           title_en?: string | null

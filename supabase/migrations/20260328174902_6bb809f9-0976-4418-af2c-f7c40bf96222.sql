@@ -1,0 +1,1 @@
+ALTER TABLE public.challenges ADD COLUMN IF NOT EXISTS language TEXT NOT NULL DEFAULT 'javascript';
