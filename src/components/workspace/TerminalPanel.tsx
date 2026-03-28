@@ -5,7 +5,7 @@ import { Terminal, Play, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useCallback } from 'react';
-import { validateChallenge } from '@/lib/validateChallenge';
+import { validateChallengeDetailed } from '@/lib/validateChallenge';
 
 export const TerminalPanel = () => {
   const { t } = useTranslation();
