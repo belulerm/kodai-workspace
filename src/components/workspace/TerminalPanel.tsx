@@ -73,7 +73,9 @@ export const TerminalPanel = () => {
 
       triggerCelebration();
     } else {
-      addTerminalLine({ content: `✗ Expected: "${activeChallenge.expected_output}" but got different output`, type: 'error' });
+      result.errors.forEach((err) => {
+        addTerminalLine({ content: `✗ ${err}`, type: 'error' });
+      });
       addTerminalLine({ content: 'Try again! Hint: Check your code carefully.', type: 'info' });
     }
   }, [clearTerminal, addTerminalLine, editorCode, activeChallenge, triggerCelebration, updateXP, addCompletedProgress, profile, userProgress]);
