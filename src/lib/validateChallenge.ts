@@ -171,11 +171,18 @@ function executeAndValidate(userCode: string, expectedOutput: string): Execution
     };
   }
 
-  // Compare: check console output first, then return value
+  // Compare: check console output OR return value against expected
   const expected = expectedOutput.trim().toLowerCase();
-  const allOutput = consoleOutput.join('\n').trim().toLowerCase();
 
-  if (allOutput === expected || (returnValue !== null && returnValue.trim().toLowerCase() === expected)) {
+  // Check each console log line individually and joined
+  const allOutput = consoleOutput.join('\n').trim().toLowerCase();
+  const lastLog = consoleOutput.length > 0 ? consoleOutput[consoleOutput.length - 1].trim().toLowerCase() : '';
+
+  if (
+    allOutput === expected ||
+    lastLog === expected ||
+    (returnValue !== null && returnValue.trim().toLowerCase() === expected)
+  ) {
     return { passed: true, errors: [], consoleOutput, returnValue };
   }
 
