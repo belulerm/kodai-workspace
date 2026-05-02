@@ -1,4 +1,5 @@
-const PISTON_EXECUTE_URL = 'https://emkc.org/api/v2/piston/execute';
+const PISTON_EXECUTE_URL =
+  import.meta.env.VITE_PISTON_URL ?? 'https://emkc.org/api/v2/piston/execute';
 const MARKUP_LANGUAGES = new Set(['html', 'css']);
 const EXECUTION_TIMEOUT_MS = 8_000; // 8 seconds
 const MAX_RUNTIME_ERROR_LENGTH = 400;
